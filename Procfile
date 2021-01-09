@@ -1,1 +1,1 @@
-mvn exec:java -Dexec.mainClass="sg.tm.bots.StartBot"
+mvn mvn exec:java -Dexec.mainClass="sg.tm.bots.StartBot"
