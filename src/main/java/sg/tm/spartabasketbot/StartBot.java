@@ -1,4 +1,4 @@
-package sg.tm.bots;
+package sg.tm.spartabasketbot;
 
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;

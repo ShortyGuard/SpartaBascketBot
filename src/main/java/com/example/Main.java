@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import sg.tm.bots.SpartaBasketBot;
+import sg.tm.spartabasketbot.SpartaBasketBot;
 
 import static javax.measure.unit.SI.KILOGRAM;
 
@@ -75,8 +75,12 @@ public class Main {
     @RequestMapping("/hello")
     String hello(Map<String, Object> model) {
         RelativisticModel.select();
-        Amount<Mass> m = Amount.valueOf("12 GeV").to(KILOGRAM);
-        model.put("science", "E=mc^2: 12 GeV = " + m.toString());
+        String energy = System.getenv().get("ENERGY");
+        if (energy == null) {
+            energy = "12 GeV";
+        }
+        Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
+        model.put("science", "E=mc^2: " + energy + " = "  + m.toString());
         return "hello";
     }
 
