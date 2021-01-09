@@ -1,1 +1,1 @@
-mvn mvn exec:java -Dexec.mainClass="sg.tm.bots.StartBot"
+web: java -jar target/sparta-basket-bot-1.0.jar
