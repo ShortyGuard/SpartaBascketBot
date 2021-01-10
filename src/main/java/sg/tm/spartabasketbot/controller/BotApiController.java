@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import sg.tm.spartabasketbot.dto.BotInfo;
+import sg.tm.spartabasketbot.dto.UpdateResponse;
 import sg.tm.spartabasketbot.service.IBotApiService;
 
 /**
@@ -21,7 +24,6 @@ class BotApiController {
     @GetMapping("/info")
     public BotInfo botInfo(){
 
-
         return BotInfo.builder()
             .name("SpartaBasketBot")
             .description("Это бот для облегчения сбора боллеров на трени на Спартаке.")
@@ -29,13 +31,11 @@ class BotApiController {
     }
 
     @PostMapping("/update")
-    public BotInfo update(@RequestBody Update update){
-        System.out.println("update = " + update);
+    public BotApiMethod update(@RequestBody Update update){
+        System.out.println("On update method: update = " + update);
 
-        return BotInfo.builder()
-            .name("SpartaBasketBot")
-            .description("Это бот для облегчения сбора боллеров на трени на Спартаке.")
-            .build();
+        // сначала проверим и зарегистрируем пользователя
+        return this.botApiService.recievedUpdate(update);
     }
 
 /*    @GetMapping
