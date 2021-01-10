@@ -2,11 +2,10 @@ package sg.tm.spartabasketbot.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
-import org.checkerframework.checker.signature.qual.Identifier;
 
 @Data
 @Entity
@@ -14,7 +13,22 @@ import org.checkerframework.checker.signature.qual.Identifier;
 public class TelegramUser {
 
     @Id
-    @GeneratedValue
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "user_name")
+    @NotBlank
+    private String userName;
+
+    @Column(name = "personal_chat_id")
+    private String personalChatId;
+
+    @Column(name = "messages_count")
+    private Long messagesCount;
 }
