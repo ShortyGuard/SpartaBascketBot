@@ -1,15 +1,22 @@
 package sg.tm.spartabasketbot.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import sg.tm.spartabasketbot.dto.BotInfo;
-import sg.tm.spartabasketbot.dto.UpdateResponse;
+import sg.tm.spartabasketbot.dto.StartCollectionResponse;
 import sg.tm.spartabasketbot.service.IBotApiService;
 
 /**
@@ -27,6 +34,24 @@ class BotApiController {
         return BotInfo.builder()
             .name("SpartaBasketBot")
             .description("Это бот для облегчения сбора боллеров на трени на Спартаке.")
+            .build();
+    }
+
+    @GetMapping("/training/collect")
+    public StartCollectionResponse startCollection(){
+
+
+        DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                .withZone( ZoneId.of("UTC+7") );
+
+        Instant instant = Instant.now();
+        String output = formatter.format( instant );
+
+        System.out.println(output);
+
+
+        return StartCollectionResponse.builder()
             .build();
     }
 
