@@ -16,7 +16,7 @@
 
 package com.example;
 
-import com.zaxxer.hikari.HikariConfig;
+/*import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,10 +29,10 @@ import javax.sql.DataSource;
 import org.jscience.physics.amount.Amount;
 import org.jscience.physics.model.RelativisticModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Value;*/
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+/*import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -40,22 +40,22 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import sg.tm.spartabasketbot.SpartaBasketBot;
 
-import static javax.measure.unit.SI.KILOGRAM;
+import static javax.measure.unit.SI.KILOGRAM;*/
 
-@Controller
-@SpringBootApplication
+//@Controller
+//@SpringBootApplication
 public class Main {
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
+/*    @Value("${spring.datasource.url}")
+    private String dbUrl;*/
 
-    @Autowired
-    private DataSource dataSource;
+/*    @Autowired
+    private DataSource dataSource;*/
 
-    public static void main(String[] args) throws Exception {
+/*    public static void main(String[] args) throws Exception {
         SpringApplication.run(Main.class, args);
 
-        try {
+*//*        try {
             // Instantiate Telegram Bots API
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
 
@@ -63,11 +63,11 @@ public class Main {
             telegramBotsApi.registerBot(new SpartaBasketBot());
         } catch (TelegramApiException e) {
             e.printStackTrace();
-        }
+        }*//*
 
-    }
+    }*/
 
-    @RequestMapping("/")
+/*    @RequestMapping("/")
     String index() {
         return "index";
     }
@@ -82,9 +82,9 @@ public class Main {
         Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
         model.put("science", "E=mc^2: " + energy + " = "  + m.toString());
         return "hello";
-    }
+    }*/
 
-    @RequestMapping("/db")
+/*    @RequestMapping("/db")
     String db(Map<String, Object> model) {
         try (Connection connection = dataSource.getConnection()) {
             Statement stmt = connection.createStatement();
@@ -103,9 +103,9 @@ public class Main {
             model.put("message", e.getMessage());
             return "error";
         }
-    }
+    }*/
 
-    @Bean
+/*    @Bean
     public DataSource dataSource() throws SQLException {
         if (dbUrl == null || dbUrl.isEmpty()) {
             return new HikariDataSource();
@@ -114,6 +114,6 @@ public class Main {
             config.setJdbcUrl(dbUrl);
             return new HikariDataSource(config);
         }
-    }
+    }*/
 
 }
