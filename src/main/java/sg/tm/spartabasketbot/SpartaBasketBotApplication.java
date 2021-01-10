@@ -11,7 +11,7 @@ public class SpartaBasketBotApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpartaBasketBotApplication.class, args);
-
+/*
         try {
             // Instantiate Telegram Bots API
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -20,6 +20,6 @@ public class SpartaBasketBotApplication {
             telegramBotsApi.registerBot(new SpartaBasketBot());
         } catch (TelegramApiException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
