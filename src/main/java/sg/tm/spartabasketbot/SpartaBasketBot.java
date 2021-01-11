@@ -31,7 +31,7 @@ public class SpartaBasketBot extends TelegramWebhookBot {
     public BotApiMethod onWebhookUpdateReceived(Update update) {
         System.out.println("onWebhookUpdateReceived");
 
-        if (update.hasMessage() && update.getMessage().hasText()) {
+/*        if (update.hasMessage() && update.getMessage().hasText()) {
             SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             message.setText(update.getMessage().getText());
@@ -40,7 +40,7 @@ public class SpartaBasketBot extends TelegramWebhookBot {
             setInline(message); // это кнопки в сообщении
 
             System.out.println("Sent answer");
-/*
+*//*
             new Thread(() -> {
                 try {
                     sleep(5000);
@@ -56,14 +56,14 @@ public class SpartaBasketBot extends TelegramWebhookBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            }).start();*/
+            }).start();*//*
 
             try {
                 execute(message); // Call method to send the message
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return null;
     }
 
