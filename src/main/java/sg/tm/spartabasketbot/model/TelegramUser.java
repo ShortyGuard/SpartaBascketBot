@@ -31,4 +31,17 @@ public class TelegramUser {
 
     @Column(name = "messages_count")
     private Long messagesCount;
+
+    public String getUserNameForMention(){
+        if (userName != null && userName.trim().length() > 0){
+            return "@" + userName;
+        }
+        StringBuffer builder   = new StringBuffer();
+        builder.append(firstName);
+        if (lastName != null){
+            builder.append(".");
+            builder.append(lastName);
+        }
+        return builder.toString();
+    }
 }

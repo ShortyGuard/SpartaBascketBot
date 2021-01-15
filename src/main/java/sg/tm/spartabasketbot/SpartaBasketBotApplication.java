@@ -1,5 +1,6 @@
 package sg.tm.spartabasketbot;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ public class SpartaBasketBotApplication {
         SpringApplication.run(SpartaBasketBotApplication.class, args);
     }
 
-    @Bean
+/*    @Bean
     public SpartaBasketBot getSpartaBasketBot() {
         SpartaBasketBot spartaBasketBot = new SpartaBasketBot();
 
@@ -31,5 +32,5 @@ public class SpartaBasketBotApplication {
             e.printStackTrace();
         }
         return spartaBasketBot;
-    }
+    }*/
 }

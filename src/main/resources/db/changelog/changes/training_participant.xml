@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="91a276d5-7f91-4fe9-a4cf-6b3f400b8f98" author="Oleg.Orlov">
+        <createTable tableName="training_participant">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="training_id" type="int"/>
+            <column name="decision" type="varchar(10)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="training_participant" baseColumnNames="user_id"
+                                 constraintName="trainingUserFK" referencedTableName="telegram_user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="training_participant" baseColumnNames="training_id"
+                                 constraintName="trainingTrainingFK" referencedTableName="training"
+                                 referencedColumnNames="id"/>
+        <createSequence sequenceName="training_participant_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

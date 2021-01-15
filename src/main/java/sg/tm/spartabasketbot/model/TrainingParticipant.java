@@ -3,6 +3,7 @@ package sg.tm.spartabasketbot.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
@@ -12,9 +13,13 @@ import lombok.Data;
 @Table(name = "training_participant")
 public class TrainingParticipant {
 
+    public static final String PLUS = "+";
+    public static final String MINUS = "-";
+    public static final String LATER = "?";
+
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trainingParticipantSequence")
     private Long id;
 
     @Column(name = "user_id")
@@ -22,4 +27,7 @@ public class TrainingParticipant {
 
     @Column(name = "training_id")
     private Long trainingId;
+
+    @Column(name = "decision")
+    private String decision;
 }

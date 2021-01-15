@@ -6,8 +6,13 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-
-    <include file="/db/changelog/changes/telegram_user.xml"/>
-    <include file="/db/changelog/changes/training.xml"/>
-    <include file="/db/changelog/changes/training_participant.xml"/>
+    <changeSet id="28a8104f-bfd8-4f64-8808-1a3cdf9cda96" author="Oleg.Orlov">
+        <createTable tableName="training">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date" type="varchar(10)"/>
+        </createTable>
+        <createSequence sequenceName="training_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
 </databaseChangeLog>

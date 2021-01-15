@@ -2,6 +2,8 @@ package sg.tm.spartabasketbot;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -16,7 +18,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import static java.lang.Thread.sleep;
 
+@Deprecated
+@Component
 public class SpartaBasketBot extends TelegramWebhookBot {
+
+    @Value("${bot.group.id}")
+    private String botGroupId;
+
     @Override
     public String getBotUsername() {
         return "SpartaBasketBot";
@@ -29,7 +37,13 @@ public class SpartaBasketBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
-        System.out.println("onWebhookUpdateReceived");
+        System.out.println("onWebhookUpdateReceived, botGroupId= " + this.botGroupId);
+
+        if (update.hasMessage()){
+
+        }else{
+
+        }
 
 /*        if (update.hasMessage() && update.getMessage().hasText()) {
             SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
@@ -130,4 +144,5 @@ public class SpartaBasketBot extends TelegramWebhookBot {
 
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
+
 }

@@ -40,16 +40,9 @@ class BotApiController {
     @GetMapping("/training/collect")
     public StartCollectionResponse startCollection(){
 
+        System.out.println("Вызвана команда на старт сбора на тренировку");
 
-        DateTimeFormatter formatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                .withZone( ZoneId.of("UTC+7") );
-
-        Instant instant = Instant.now();
-        String output = formatter.format( instant );
-
-        System.out.println(output);
-
+        this.botApiService.startTrainingCollect();
 
         return StartCollectionResponse.builder()
             .build();
@@ -59,7 +52,6 @@ class BotApiController {
     public BotApiMethod update(@RequestBody Update update){
         System.out.println("On update method: update = " + update);
 
-        // сначала проверим и зарегистрируем пользователя
         return this.botApiService.recievedUpdate(update);
     }
 
