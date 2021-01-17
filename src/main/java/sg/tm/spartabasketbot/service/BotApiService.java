@@ -165,14 +165,17 @@ public class BotApiService extends TelegramWebhookBot implements IBotApiService 
             message = new SendMessage(); // Create a SendMessage object with mandatory fields
             message.setChatId(botGroupId);
             message.enableHtml(true);
-            String everyBodyNotificationText = telegramUser.getUserNameForMention() +
+            String everyBodyNotificationText = "<b>"+telegramUser.getShorName() +
                 " ответил " +
                 (TrainingParticipant.PLUS.equals(decision) ? "'Я иду'" : (
                     TrainingParticipant.MINUS.equals(decision) ? "'Я НЕ иду'" :
-                        "'Отвечу позже'"));
+                        "'Отвечу позже'")) +
+                "</b>";
 
             everyBodyNotificationText += "\nТекущее состояние по сборам на тренировку:\n" +getStatInfo();
             message.setText(everyBodyNotificationText);
+
+            setInlineForCollection(message);
 
             sendMessage(message);
 
@@ -191,13 +194,13 @@ public class BotApiService extends TelegramWebhookBot implements IBotApiService 
     private BotApiMethod handleEntities(List<MessageEntity> entities, Message updateMessage) {
         for (MessageEntity entity : entities) {
             if (BOT_COMMAND.equals(entity.getType())) {
-                if (entity.getText().startsWith(HELP_COMMAND)) {
+                if (entity.getText().startsWith(HELP_COMMAND) && updateMessage.getText().startsWith(HELP_COMMAND)) {
 
                     SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
-                    message.setChatId(botGroupId);
+                    message.setChatId(String.valueOf(updateMessage.getChatId()));
                     message.enableHtml(true);
-                    message.setText("Вас приветствует " + getBotUsername() +
-                        "\nЯ умею обрабатывать следующие команды:\n" +
+                    message.setText("Вас приветствует <b>" + getBotUsername() + "</b>" +
+                        "\n<u>Я умею обрабатывать следующие команды</u>:\n" +
                             "<b>/help</b> - получть это сообщение о помощи\n" +
                             "<b>/plus</b> - отметиться 'я играю' в сборах на сегодняшнюю тренировку\n" +
                             "<b>/minus</b> - отметиться 'я НЕ играю' в сборах на сегодняшнюю тренировку\n" +
@@ -212,11 +215,14 @@ public class BotApiService extends TelegramWebhookBot implements IBotApiService 
                     Optional<TelegramUser> telegramUser = this.userRepository.findById(
                         Long.valueOf(updateMessage.getFrom().getId()));
                     if (telegramUser.isPresent()) {
-                        if (entity.getText().startsWith(PLUS_COMMAND)) {
+                        if (entity.getText().startsWith(PLUS_COMMAND)
+                            && updateMessage.getText().startsWith(PLUS_COMMAND)) {
                             saveUserCollectionDecision(telegramUser.get(), TrainingParticipant.PLUS);
-                        } else if (entity.getText().startsWith(MINUS_COMMAND)) {
+                        } else if (entity.getText().startsWith(MINUS_COMMAND)
+                            && updateMessage.getText().startsWith(MINUS_COMMAND)) {
                             saveUserCollectionDecision(telegramUser.get(), TrainingParticipant.MINUS);
-                        } else if (entity.getText().startsWith(LATER_COMMAND)) {
+                        } else if (entity.getText().startsWith(LATER_COMMAND)
+                            && updateMessage.getText().startsWith(LATER_COMMAND)) {
                             saveUserCollectionDecision(telegramUser.get(), TrainingParticipant.LATER);
                         }
                     } else {
@@ -224,9 +230,11 @@ public class BotApiService extends TelegramWebhookBot implements IBotApiService 
                     }
 
                     return null;
-                } else if (entity.getText().startsWith(STAT_COMMAND)) {
+                } else if (entity.getText().startsWith(STAT_COMMAND)
+                    && updateMessage.getText().startsWith(STAT_COMMAND)) {
                     handleStatCommand(updateMessage.getChatId());
-                } else if (entity.getText().startsWith(START_COLLECTION_COMMAND)) {
+                } else if (entity.getText().startsWith(START_COLLECTION_COMMAND)
+                    && updateMessage.getText().startsWith(START_COLLECTION_COMMAND)) {
                     startTrainingCollect();
                 }
             } else {
@@ -284,26 +292,27 @@ public class BotApiService extends TelegramWebhookBot implements IBotApiService 
                 }
             }
 
-            String answer = "Идут на тренировку:\n";
+            String answer = "<b>Идут на тренировку</b>\n<pre>";
             for (int i = 0; i < plusUsers.size(); i++) {
                 TelegramUser user = plusUsers.get(i);
-                answer += " " + (i + 1) + ". " + user.getUserNameForMention() + "\n";
+                answer += " " + (i + 1) + ". " + user.getShorName() + "\n";
             }
-            answer += "НЕ идут на тренировку:\n";
+            answer += "</pre><b>НЕ идут на тренировку</b>\n<pre>";
             for (int i = 0; i < minusUsers.size(); i++) {
                 TelegramUser user = minusUsers.get(i);
-                answer += " " + (i + 1) + ". " + user.getUserNameForMention() + "\n";
+                answer += " " + (i + 1) + ". " + user.getShorName() + "\n";
             }
-            answer += "Ответят позже:\n";
+            answer += "</pre><b>Ответят позже</b>\n<pre>";
             for (int i = 0; i < laterUsers.size(); i++) {
                 TelegramUser user = laterUsers.get(i);
-                answer += " " + (i + 1) + ". " + user.getUserNameForMention() + "\n";
+                answer += " " + (i + 1) + ". " + user.getShorName() + "\n";
             }
-            answer += "НЕ ПРОГОЛОСОВАЛИ (ай-яй-яй):\n";
+            answer += "</pre><b><u>НЕ ПРОГОЛОСОВАЛИ (ай-яй-яй)</u></b>\n<pre>";
             for (int i = 0; i < allUsers.size(); i++) {
                 TelegramUser user = allUsers.get(i);
                 answer += " " + (i + 1) + ". " + user.getUserNameForMention() + "\n";
             }
+            answer += "</pre>";
 
             return answer;
 
@@ -411,10 +420,10 @@ public class BotApiService extends TelegramWebhookBot implements IBotApiService 
         InlineKeyboardButton laterButton = new InlineKeyboardButton();
         laterButton.setText("Отвечу позже");
         laterButton.setCallbackData(CALLBACK_LATER);
-        secondRow.add(laterButton);
+        firstRow.add(laterButton);
 
         buttons.add(firstRow);
-        buttons.add(secondRow);
+       // buttons.add(secondRow);
 
         InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
         markupKeyboard.setKeyboard(buttons);

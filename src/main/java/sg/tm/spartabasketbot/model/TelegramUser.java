@@ -44,4 +44,14 @@ public class TelegramUser {
         }
         return builder.toString();
     }
+
+    public String getShorName() {
+        StringBuffer builder   = new StringBuffer();
+        builder.append(firstName);
+        if (lastName != null){
+            builder.append(".");
+            builder.append(lastName);
+        }
+        return builder.toString();
+    }
 }
