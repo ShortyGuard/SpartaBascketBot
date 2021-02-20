@@ -43,6 +43,9 @@ public class SpartaBotService extends TelegramWebhookBot {
     @Value("${bot.group.id}")
     private String botGroupId;
 
+    @Value("${deploy.service.url}")
+    private String deployServiceUrl;
+
     @Override
     public String getBotUsername() {
         return "SpartaBasketBot";
@@ -66,7 +69,7 @@ public class SpartaBotService extends TelegramWebhookBot {
 
             // Register our bot
             telegramBotsApi.registerBot(this, SetWebhook.builder()
-                .url("https://stormy-oasis-06121.herokuapp.com/update")
+                .url(deployServiceUrl + "/update")
                 .build());
         } catch (TelegramApiException e) {
             e.printStackTrace();
