@@ -93,12 +93,11 @@ public class StatCommandHandler implements BotCommandHandler {
                 TelegramUser user = laterUsers.get(i);
                 answer += " " + (i + 1) + ". " + user.getShorName() + "\n";
             }
-            answer += "</pre><b><u>НЕ ПРОГОЛОСОВАЛИ (ай-яй-яй)</u></b>\n<pre>";
+            answer += "</pre><b><u>НЕ ПРОГОЛОСОВАЛИ (ай-яй-яй)</u></b>\n";
             for (int i = 0; i < allUsers.size(); i++) {
                 TelegramUser user = allUsers.get(i);
                 answer += " " + (i + 1) + ". " + user.getUserNameForMention() + "\n";
             }
-            answer += "</pre>";
 
             return answer;
 
