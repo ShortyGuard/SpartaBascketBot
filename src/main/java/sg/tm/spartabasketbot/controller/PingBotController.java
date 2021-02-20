@@ -16,7 +16,7 @@ public class PingBotController {
 
     @PostMapping("/ping/update")
     public BotApiMethod update(@RequestBody Update update) {
-        System.out.println("On update method: update = " + update);
+        System.out.println("PingBotController: On update method: update = " + update);
 
         return this.pingBotService.onWebhookUpdateReceived(update);
     }

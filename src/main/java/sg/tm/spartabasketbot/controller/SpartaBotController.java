@@ -22,6 +22,7 @@ class SpartaBotController {
 
     @GetMapping("/info")
     public BotInfo botInfo() {
+        System.out.println("SpartaBotController: Вызвана команда /info");
 
         return BotInfo.builder()
             .name("SpartaBasketBot")
@@ -32,7 +33,7 @@ class SpartaBotController {
     @GetMapping("/training/collect")
     public StartCollectionResponse startCollection() {
 
-        System.out.println("Вызвана команда на старт сбора на тренировку");
+        System.out.println("SpartaBotController: Вызвана команда на старт сбора на тренировку");
 
         this.spartaBotService.startTrainingCollect();
 
@@ -42,7 +43,7 @@ class SpartaBotController {
 
     @PostMapping("/update")
     public BotApiMethod update(@RequestBody Update update) {
-        System.out.println("On update method: update = " + update);
+        System.out.println("SpartaBotController: On update method: update = " + update);
 
         return this.spartaBotService.recievedUpdate(update);
     }
