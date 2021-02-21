@@ -65,6 +65,8 @@ public class CollectionCommandHandler implements BotCommandHandler {
             notifyAllNotAnsweredUsers(sender, currentDate);
 
             //оповестить в общий чат, что сбор начался
+        } else{
+            System.out.println("CollectionCommandHandler: startTrainingCollect - Сборы уже запущены");
         }
 
     }
@@ -92,7 +94,7 @@ public class CollectionCommandHandler implements BotCommandHandler {
         }
     }
 
-    private void notifyNotAnsweredUser(AbsSender sender, String chatId, String text) throws TelegramApiException {
+    private void notifyNotAnsweredUser(AbsSender sender, String chatId, String text) {
         SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
         message.setChatId(chatId);
         message.setText(text);
@@ -100,7 +102,11 @@ public class CollectionCommandHandler implements BotCommandHandler {
         //  setButtons(message); // это кнопки в ответе
         setInlineForCollection(message); // это кнопки в сообщении
 
-        sender.execute(message);
+        try {
+            sender.execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     public void notifyAllWaitingUsers(AbsSender sender, String date) throws TelegramApiException {
