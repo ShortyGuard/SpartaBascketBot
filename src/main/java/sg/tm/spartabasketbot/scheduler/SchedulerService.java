@@ -40,9 +40,9 @@ public class SchedulerService {
         System.out.println("SchedulerService: Got. Pong response: " + response);
     }
 
-    // метод отправки напоминания о сдаче денег формат (second, minute, hour, day of month, month, day(s) of week)
+    // метод отправки напоминания о сдаче денег (cron формат second, minute, hour, day of month, month, day(s) of week)
     @Scheduled(cron = "0 0 12,20 21-31 * *", zone = "Asia/Novosibirsk")
-    private void sendMonthlyPaymentReminderMessage(){
+    private void sendMonthlyPaymentReminderMessage() {
         System.out.println("SchedulerService: sendMonthlyPaymentReminderMessage. ");
 
         SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
@@ -53,6 +53,13 @@ public class SchedulerService {
         spartaBotService.sendMessage(message);
     }
 
+    // метод запускающий каждый понедельник и среду собранние на тренировку в 00:01:00.
+    // (cron формат second, minute, hour, day of month, month, day(s) of week)
+    @Scheduled(cron = "0 1 0 * * MON,WED", zone = "Asia/Novosibirsk")
+    private void startTrainingCollect() {
+        System.out.println("SchedulerService: startTrainingCollect. ");
 
+        spartaBotService.startTrainingCollect();
+    }
 
 }
