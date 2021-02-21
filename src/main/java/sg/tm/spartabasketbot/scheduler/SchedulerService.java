@@ -62,4 +62,24 @@ public class SchedulerService {
         spartaBotService.startTrainingCollect();
     }
 
+    // метод запускающий напоминание для тех кто не проголосовал
+    // в понедельник и среду в 09:00, 12:00, 15:00, 17:00, 18:00
+    // (cron формат second, minute, hour, day of month, month, day(s) of week)
+    @Scheduled(cron = "0 0 9,12,15,17,18 * * MON,WED", zone = "Asia/Novosibirsk")
+    private void notifyAllNotAnsweredUsers() {
+        System.out.println("SchedulerService: notifyAllNotAnsweredUsers. ");
+
+        spartaBotService.notifyAllNotAnsweredUsers();
+    }
+
+    // метод запускающий напоминание для тех кто не определился
+    // в понедельник и среду в 16:30, 17:00, 17:30, 18:00, 18:30б 19:00
+    // (cron формат second, minute, hour, day of month, month, day(s) of week)
+    @Scheduled(cron = "0 0,30 16,17,18 * * MON,WED", zone = "Asia/Novosibirsk")
+    private void notifyAllWaitingUsers() {
+        System.out.println("SchedulerService: notifyAllWaitingUsers. ");
+
+        spartaBotService.notifyAllWaitingUsers();
+    }
+
 }

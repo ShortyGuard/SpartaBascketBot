@@ -69,23 +69,27 @@ public class CollectionCommandHandler implements BotCommandHandler {
 
     }
 
-    private void notifyAllNotAnsweredUsers(AbsSender sender, String date) throws TelegramApiException {
+    public void notifyAllNotAnsweredUsers(AbsSender sender, String date) throws TelegramApiException {
         //получим неответивших пользователей
         List<TelegramUser> users = this.userRepository.findAllNotAnsweredUsers(date);
 
         StringBuffer stringBuffer = new StringBuffer("Сегодня тренировка. Ждем ответа об участии от ");
+        boolean needNotifyAll = false;
         for (TelegramUser user : users) {
+            needNotifyAll = true;
             System.out.println("не ответил: " + user.getId());
 
             notifyNotAnsweredUser(sender, String.valueOf(user.getId()), "Сегодня тренировка. Ждем ответа об участии. " +
                 "\nОтветь боту (см. /help) лично или нажмите на одну из кнопок ниже.");
 
             stringBuffer.append(user.getUserNameForMention());
-            stringBuffer.append(" ");
+            stringBuffer.append(", ");
         }
         stringBuffer.append("\n Ответье боту (см. /help) лично или нажмите на одну из кнопок ниже.");
 
-        notifyNotAnsweredUser(sender, botGroupId, stringBuffer.toString());
+        if (needNotifyAll) {
+            notifyNotAnsweredUser(sender, botGroupId, stringBuffer.toString());
+        }
     }
 
     private void notifyNotAnsweredUser(AbsSender sender, String chatId, String text) throws TelegramApiException {
@@ -97,6 +101,28 @@ public class CollectionCommandHandler implements BotCommandHandler {
         setInlineForCollection(message); // это кнопки в сообщении
 
         sender.execute(message);
+    }
+
+    public void notifyAllWaitingUsers(AbsSender sender, String date) throws TelegramApiException {
+        //получим ожидающих пользователей
+        List<TelegramUser> users = this.userRepository.findAllWaitingUsers(date);
+
+        StringBuffer stringBuffer = new StringBuffer("Пора бы уже определиться ");
+        boolean needNotifyAll = false;
+        for (TelegramUser user : users) {
+            needNotifyAll = true;
+
+            stringBuffer.append(user.getUserNameForMention());
+            stringBuffer.append(", ");
+        }
+
+        if (needNotifyAll) {
+            SendMessage message = new SendMessage();
+            message.setChatId(botGroupId);
+            message.setText(stringBuffer.toString());
+
+            sender.execute(message);
+        }
     }
 
     public BotApiMethod handleCallbackQuery(AbsSender sender, CallbackQuery callbackQuery) throws TelegramApiException {

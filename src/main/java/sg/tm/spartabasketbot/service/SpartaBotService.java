@@ -193,4 +193,20 @@ public class SpartaBotService extends TelegramWebhookBot {
             }
         }
     }
+
+    public void notifyAllNotAnsweredUsers() {
+        try {
+            this.collectionCommandHandler.notifyAllNotAnsweredUsers(this, DateUtil.getCurrentDate());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void notifyAllWaitingUsers() {
+        try {
+            this.collectionCommandHandler.notifyAllWaitingUsers(this, DateUtil.getCurrentDate());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 }
