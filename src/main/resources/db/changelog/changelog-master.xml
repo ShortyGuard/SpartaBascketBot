@@ -7,6 +7,7 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 
+    <include file="/db/changelog/changes/parameters.xml"/>
     <include file="/db/changelog/changes/telegram_user.xml"/>
     <include file="/db/changelog/changes/training.xml"/>
     <include file="/db/changelog/changes/training_participant.xml"/>

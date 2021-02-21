@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="de965d93-058d-4c07-a5ba-d5e0ee51dc92" author="Oleg.Orlov">
+        <createTable tableName="parameters">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="string_value" type="varchar(1024)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="c8443c88-a747-4a27-ac90-41adfca5095e" author="Oleg.Orlov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(1) FROM parameters WHERE id = 1
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="parameters">
+            <column name="id" value="1"/>
+            <column name="name" value="monthly_payment_reminder_message"/>
+            <column name="string_value" value="Скоро следующий месяц. Сдаем абоники!!!"/>
+        </insert>
+        <rollback/>
+    </changeSet>
+</databaseChangeLog>

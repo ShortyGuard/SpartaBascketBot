@@ -23,6 +23,7 @@ import sg.tm.spartabasketbot.repository.UserRepository;
 import sg.tm.spartabasketbot.service.command.BotCommandHandler;
 import sg.tm.spartabasketbot.service.command.CollectionCommandHandler;
 import sg.tm.spartabasketbot.service.command.HelpCommandHandler;
+import sg.tm.spartabasketbot.service.command.ParameterUpdateCommandHandler;
 import sg.tm.spartabasketbot.service.command.StatCommandHandler;
 
 @Service
@@ -33,6 +34,9 @@ public class SpartaBotService extends TelegramWebhookBot {
 
     @Autowired
     private HelpCommandHandler handleHelpCommand;
+
+    @Autowired
+    private ParameterUpdateCommandHandler parameterUpdateCommandHandler;
 
     @Autowired
     private StatCommandHandler statCommandHandler;
@@ -108,6 +112,10 @@ public class SpartaBotService extends TelegramWebhookBot {
                 if (entity.getText().startsWith(BotCommandHandler.HELP_COMMAND) &&
                     updateMessage.getText().startsWith(BotCommandHandler.HELP_COMMAND)) {
                     handleHelpCommand.handleCommand(this, updateMessage);
+                } else if (entity.getText().startsWith(BotCommandHandler.UPDATE_PARAMETER_ONE_COMMAND) &&
+                    updateMessage.getText().startsWith(BotCommandHandler.UPDATE_PARAMETER_ONE_COMMAND)) {
+
+                    parameterUpdateCommandHandler.handleCommand(this, updateMessage);
                 } else if (entity.getText().startsWith(BotCommandHandler.PLUS_COMMAND) ||
                     entity.getText().startsWith(BotCommandHandler.MINUS_COMMAND) ||
                     entity.getText().startsWith(BotCommandHandler.LATER_COMMAND)) {
@@ -144,7 +152,7 @@ public class SpartaBotService extends TelegramWebhookBot {
         return null;
     }
 
-    private void sendMessage(SendMessage message) {
+    public void sendMessage(SendMessage message) {
         try {
             execute(message); // Call method to send the message
         } catch (TelegramApiException e) {
@@ -172,7 +180,7 @@ public class SpartaBotService extends TelegramWebhookBot {
         if (update.hasMessage() || update.hasCallbackQuery()) {
             User from = update.hasCallbackQuery() ? update.getCallbackQuery().getFrom() : update.getMessage().getFrom();
 
-            if (!from.getIsBot()) {
+            if (from.getIsBot() != null && !from.getIsBot()) {
                 Optional<TelegramUser> userEntity = this.userRepository.findById(Long.valueOf(from.getId()));
                 TelegramUser telegramUser = new TelegramUser();
                 telegramUser.setId(Long.valueOf(from.getId()));
