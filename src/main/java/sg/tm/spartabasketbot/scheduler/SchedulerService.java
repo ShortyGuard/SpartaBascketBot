@@ -63,7 +63,7 @@ public class SchedulerService {
     }
 
     // метод запускающий напоминание для тех кто не проголосовал
-    // в понедельник и среду в 09:00, 12:00, 15:00, 17:00, 18:00
+    // в понедельник и среду в 09:00, 13:00, 15:00, 17:00, 18:00
     // (cron формат second, minute, hour, day of month, month, day(s) of week)
     @Scheduled(cron = "0 0 9,12,15,17,18 * * MON,WED", zone = "Asia/Novosibirsk")
     private void notifyAllNotAnsweredUsers() {
