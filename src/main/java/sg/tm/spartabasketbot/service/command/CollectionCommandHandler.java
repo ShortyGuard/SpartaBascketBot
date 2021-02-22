@@ -65,7 +65,7 @@ public class CollectionCommandHandler implements BotCommandHandler {
             notifyAllNotAnsweredUsers(sender, currentDate);
 
             //оповестить в общий чат, что сбор начался
-        } else{
+        } else {
             System.out.println("CollectionCommandHandler: startTrainingCollect - Сборы уже запущены");
         }
 
@@ -73,6 +73,8 @@ public class CollectionCommandHandler implements BotCommandHandler {
 
     public void notifyAllNotAnsweredUsers(AbsSender sender, String date) {
         //получим неответивших пользователей
+        System.out.println("notifyAllNotAnsweredUsers: findAllNotAnsweredUsers by date = '" + date + "'");
+
         List<TelegramUser> users = this.userRepository.findAllNotAnsweredUsers(date);
 
         StringBuffer stringBuffer = new StringBuffer("Сегодня тренировка. Ждем ответа об участии от ");
@@ -111,6 +113,8 @@ public class CollectionCommandHandler implements BotCommandHandler {
 
     public void notifyAllWaitingUsers(AbsSender sender, String date) throws TelegramApiException {
         //получим ожидающих пользователей
+        System.out.println("notifyAllNotAnsweredUsers: findAllWaitingUsers by date = '" + date + "'");
+
         List<TelegramUser> users = this.userRepository.findAllWaitingUsers(date);
 
         StringBuffer stringBuffer = new StringBuffer("Пора бы уже определиться ");
