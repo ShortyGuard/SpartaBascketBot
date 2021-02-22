@@ -73,7 +73,7 @@ public class SchedulerService {
     }
 
     // метод запускающий напоминание для тех кто не определился
-    // в понедельник и среду в 16:30, 17:00, 17:30, 18:00, 18:30б 19:00
+    // в понедельник и среду в 16:30, 17:00, 17:30, 18:00, 18:30, 19:00
     // (cron формат second, minute, hour, day of month, month, day(s) of week)
     @Scheduled(cron = "0 0,30 16,17,18 * * MON,WED", zone = "Asia/Novosibirsk")
     private void notifyAllWaitingUsers() {
