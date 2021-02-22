@@ -169,11 +169,7 @@ public class SpartaBotService extends TelegramWebhookBot {
     }
 
     public void startTrainingCollect() {
-        try {
-            collectionCommandHandler.startTrainingCollect(this);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        collectionCommandHandler.startTrainingCollect(this);
     }
 
     private void ensureUser(Update update) {
@@ -195,11 +191,7 @@ public class SpartaBotService extends TelegramWebhookBot {
     }
 
     public void notifyAllNotAnsweredUsers() {
-        try {
-            this.collectionCommandHandler.notifyAllNotAnsweredUsers(this, DateUtil.getCurrentDate());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        this.collectionCommandHandler.notifyAllNotAnsweredUsers(this, DateUtil.getCurrentDate());
     }
 
     public void notifyAllWaitingUsers() {

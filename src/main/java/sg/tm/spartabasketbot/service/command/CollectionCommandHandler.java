@@ -49,7 +49,7 @@ public class CollectionCommandHandler implements BotCommandHandler {
         return false;
     }
 
-    public void startTrainingCollect(AbsSender sender) throws TelegramApiException {
+    public void startTrainingCollect(AbsSender sender) {
         String currentDate = DateUtil.getCurrentDate();
 
         //сначала проверить, что текущего открытого сбора нет
@@ -71,7 +71,7 @@ public class CollectionCommandHandler implements BotCommandHandler {
 
     }
 
-    public void notifyAllNotAnsweredUsers(AbsSender sender, String date) throws TelegramApiException {
+    public void notifyAllNotAnsweredUsers(AbsSender sender, String date) {
         //получим неответивших пользователей
         List<TelegramUser> users = this.userRepository.findAllNotAnsweredUsers(date);
 
@@ -149,7 +149,7 @@ public class CollectionCommandHandler implements BotCommandHandler {
         return null;
     }
 
-    public void saveUserCollectionDecision(AbsSender sender, TelegramUser telegramUser, String decision) throws TelegramApiException {
+    public void saveUserCollectionDecision(AbsSender sender, TelegramUser telegramUser, String decision) {
         String currentDate = DateUtil.getCurrentDate();
 
         Training training = this.trainingRepository.findOneByDate(currentDate);
@@ -169,7 +169,11 @@ public class CollectionCommandHandler implements BotCommandHandler {
                         "'Отвечу позже'");
                 message.setText("Ответ " + decisionText + " уже учтен ранее. (я понял с первого раза.)");
 
-                sender.execute(message);
+                try {
+                    sender.execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
                 return;
             }
             trainingParticipant.setUserId(telegramUser.getId());
@@ -186,7 +190,11 @@ public class CollectionCommandHandler implements BotCommandHandler {
                     "'Отвечу позже'");
             message.setText("Ответ " + decisionText + " учтен. Спасибо за вашу отзывчивость.");
 
-            sender.execute(message);
+            try {
+                sender.execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
 
             message = new SendMessage(); // Create a SendMessage object with mandatory fields
             message.setChatId(botGroupId);
@@ -204,7 +212,11 @@ public class CollectionCommandHandler implements BotCommandHandler {
 
             setInlineForCollection(message);
 
-            sender.execute(message);
+            try {
+                sender.execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
 
         } else {
             System.out.println("GET VOTE!!!  telegramUser = " + telegramUser + ", decision = " + decision);
@@ -214,7 +226,11 @@ public class CollectionCommandHandler implements BotCommandHandler {
             message.setText("Сбор на тренировку еще не начался.\n" +
                 "Ждем когда кто-то из админов соизволит мне об этом сказать.");
 
-            sender.execute(message);
+            try {
+                sender.execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
     }
 
