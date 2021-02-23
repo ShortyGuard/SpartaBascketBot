@@ -83,8 +83,10 @@ public class CollectionCommandHandler implements BotCommandHandler {
             needNotifyAll = true;
             System.out.println("не ответил: " + user.getId());
 
+/*
             notifyNotAnsweredUser(sender, String.valueOf(user.getId()), "Сегодня тренировка. Ждем ответа об участии. " +
                 "\nОтветь боту (см. /help) лично или нажмите на одну из кнопок ниже.");
+*/
 
             stringBuffer.append(user.getUserNameForMention());
             stringBuffer.append(", ");
@@ -173,12 +175,12 @@ public class CollectionCommandHandler implements BotCommandHandler {
                         "'Отвечу позже'");
                 message.setText("Ответ " + decisionText + " уже учтен ранее. (я понял с первого раза.)");
 
-                try {
+             /*   try {
                     sender.execute(message);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-                return;
+             */   return;
             }
             trainingParticipant.setUserId(telegramUser.getId());
             trainingParticipant.setTrainingId(training.getId());
@@ -194,12 +196,12 @@ public class CollectionCommandHandler implements BotCommandHandler {
                     "'Отвечу позже'");
             message.setText("Ответ " + decisionText + " учтен. Спасибо за вашу отзывчивость.");
 
-            try {
+ /*           try {
                 sender.execute(message);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
-
+*/
             message = new SendMessage(); // Create a SendMessage object with mandatory fields
             message.setChatId(botGroupId);
             message.enableHtml(true);
@@ -230,12 +232,12 @@ public class CollectionCommandHandler implements BotCommandHandler {
             message.setText("Сбор на тренировку еще не начался.\n" +
                 "Ждем когда кто-то из админов соизволит мне об этом сказать.");
 
-            try {
+ /*           try {
                 sender.execute(message);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
-        }
+ */       }
     }
 
     private void setInlineForCollection(SendMessage message) {
