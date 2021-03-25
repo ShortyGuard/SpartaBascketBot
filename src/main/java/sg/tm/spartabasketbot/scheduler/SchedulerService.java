@@ -31,8 +31,9 @@ public class SchedulerService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    // запускаем пинг через каждые 15 минут, а первый раз через 10 минут после инициализации
-    @Scheduled(fixedDelay = 900000, initialDelay = 600000)
+    // запускаем пинг через каждые 15 минут, с воскресенья по четверг
+    // (cron формат second, minute, hour, day of month, month, day(s) of week)
+    @Scheduled(cron = "* 0/15 * * * SUN,MON,TUE,WED", zone = "Asia/Novosibirsk")
     private void ping() {
         String url = deployServiceUrl + "/info";
         System.out.println("SchedulerService: PING!!! on URL: " + url);
